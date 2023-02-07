@@ -1,35 +1,61 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyparser = require('body-parser');
-const cors = require('cors');
+const express = require("express");
 const app = express();
-require("dotenv").config();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const studentRouter=require('./routes/students');
+const cors=require('cors');
 
-const PORT = process.env.PORT || 8070 ;
 
+//upload image
+const multer = require("multer");
+const path = require("path");
 
-app.use(cors());
-app.use(bodyparser.json());
-
-const URL = process.env.MONGODB_URL;
-
-mongoose.connect(URL,{
-    useCreateIndex : true,
-    useNewUrlParser : true,
-    useUnifiedTopology : true,
-    UseFindAndModify: false
+dotenv.config();
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_URL, () => {
+  console.log("Connected to MongoDB");
 });
 
-const connection =mongoose.connection;
-connection.once('open', () => {
-    console.log("mongodb connection success!!");
-})
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
-const studentRouter = require("./routes/students.js");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name);
+  },
+});
 
-app.use("/student",studentRouter);
+const upload = multer({ storage });
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  try {
+    return res.status(200).json("File uploaded successfully");
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-app.listen(PORT, ()=>{
-    console.log(`Server is up and running on port number : ${PORT}`)
-})
 
+//middleware
+app.use(express.json());
+app.use(morgan("common"));
+app.use(cors());
+
+app.use("/api/students",studentRouter);
+
+
+// app.get("/", (req, res) => {
+//   res.send("Welcome to home page");
+// });
+
+// app.get("/users", (req, res) => {
+//   res.send("Welcome to user page");
+// });
+
+
+
+app.listen(8800, () => {
+  console.log("Backend server is running");
+});

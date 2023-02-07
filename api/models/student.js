@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
         type:String,
         required:true,   
     },
-    age:{
+    contactnumber:{
         type:Number,
         required:true,   
     },
@@ -16,7 +16,15 @@ const mongoose = require('mongoose');
         type:String,
         required:true,   
     },
-
+    address:{
+        type:String,
+        required:true,   
+    },
+    dob:{
+        type:Number,
+        required:true,   
+    },
+  
  })
 
  const Student = mongoose.model("Student",studentSchema);
