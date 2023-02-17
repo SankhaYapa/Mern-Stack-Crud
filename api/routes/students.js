@@ -5,15 +5,17 @@ router.route("/add").post(
     (req,res)=>{
 
         try {
-            const name = req.body.name;
+            const fname = req.body.fname;
+            const lname = req.body.lname;
         const contactnumber = Number(req.body.contactnumber);
-        const gender = req.body.gender;
-        const address=req.body.address;
-        const dob=Number(req.body.dob);
+        const nationalId = req.body.nationalId;
+        const email = req.body.email;
+        const subjects=req.body.subjects;
+        const dateOfBirth=req.body.dateOfBirth;
 
         const newStudent = new Student({
 
-            name,contactnumber,gender,address,dob
+            fname,lname,contactnumber,nationalId,email,subjects,dateOfBirth
         })
         newStudent.save();
         res.json("student Added");

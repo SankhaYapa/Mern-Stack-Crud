@@ -6,9 +6,6 @@ import { Button, Modal, Input } from "react-bootstrap";
 function Home() {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [student, setStudents] = useState([]);
 
   useEffect(() => {
@@ -73,9 +70,12 @@ function Home() {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Name </th>
-                  <th>Address</th>
-                  <th>Gender</th>
+                  <th>First Name </th>
+                  <th>Last Name </th>
+                  <th>National Id</th>
+                  <th>Subject</th>
+                  <th>Email</th>
+
                   <th>Date of Birth </th>
                   <th>Actions</th>
                 </tr>
@@ -84,10 +84,12 @@ function Home() {
                 {student.map((item, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{item.name}</td>
-                    <td>{item.address}</td>
-                    <td>{item.gender}</td>
-                    <td>{item.dob}</td>
+                    <td>{item.fname}</td>
+                    <td>{item.lname}</td>
+                    <td>{item.nationalId}</td>
+                    <td>{item.subjects}</td>
+                    <td>{item.email}</td>
+                    <td>{new Date(item.dateOfBirth).toLocaleDateString()}</td>
 
                     <td>
                       <a

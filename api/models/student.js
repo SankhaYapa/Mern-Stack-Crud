@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
  
  const studentSchema = new Schema({
 
-    name:{
+    fname:{
+        type:String,
+        required:true,   
+    },
+    lname:{
         type:String,
         required:true,   
     },
@@ -12,16 +16,20 @@ const mongoose = require('mongoose');
         type:Number,
         required:true,   
     },
-    gender:{
+    nationalId:{
         type:String,
         required:true,   
     },
-    address:{
+    email:{
         type:String,
         required:true,   
     },
-    dob:{
-        type:Number,
+    subjects:{
+        type:String,
+        required:true,   
+    },
+    dateOfBirth:{
+        type:Date,
         required:true,   
     },
   

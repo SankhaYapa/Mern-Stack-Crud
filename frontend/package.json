@@ -11,7 +11,9 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-calendar": "^4.0.0",
+    "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -40,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://localhost:8800/api/students"
+  "proxy": "http://localhost:8800/api/students"
 }

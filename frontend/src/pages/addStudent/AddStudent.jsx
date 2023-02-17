@@ -4,25 +4,31 @@ import { Button, Form } from "react-bootstrap";
 import { Calendar } from "react-calendar";
 import { useNavigate } from "react-router-dom";
 import "./addStudent.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export const AddStudent = () => {
-  const [name, setName] = useState("");
+  const [fname, setFName] = useState("");
+  const [lname, setLName] = useState("");
   const [contactnumber, setContactnumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
-  const [calDate, setCalDate] = useState(new Date());
+  const [subjects, setSubjects] = useState("");
+  const [nationalId, setNationalId] = useState("");
+  const [email, setEmail] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
 
   const navigate = useNavigate();
   function sendData(e) {
     e.preventDefault();
 
     const newStudent = {
-      name,
+      fname,
+      lname,
       contactnumber,
-      address,
-      gender,
-      dob,
+      subjects,
+      nationalId,
+      email,
+      dateOfBirth,
     };
     console.log(newStudent);
     axios
@@ -38,7 +44,17 @@ export const AddStudent = () => {
   //     // change results based on calendar date click
   //     setCalDate(calDate)
   // }
-
+  const CustomInput = ({ value, onClick }) => (
+    <div className="input-group">
+      <input type="text" className="" value={value} onClick={onClick} />
+      <div className="input-group-append">
+        <span className="input-group-text">
+          <FaCalendarAlt />
+        </span>
+      </div>
+    </div>
+  );
+  const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return (
     <div className="containerdiv">
       <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
@@ -49,14 +65,26 @@ export const AddStudent = () => {
         <div className="homediv">
           <form onSubmit={sendData} className="formcontainer">
             <div class="mb-3">
-              <label for="name">Student Name</label>
+              <label for="name">Student First Name</label>
               <input
                 type="text"
                 class="form-control"
                 id="fullname"
-                placeholder="Enter Student Name"
+                placeholder="Enter Student First Name"
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setFName(e.target.value);
+                }}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="name">Student Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fullname"
+                placeholder="Enter Student Last Name"
+                onChange={(e) => {
+                  setLName(e.target.value);
                 }}
               />
             </div>
@@ -70,52 +98,78 @@ export const AddStudent = () => {
                 onChange={(e) => {
                   setContactnumber(e.target.value);
                 }}
+                pattern="[0-9]{10}"
+                title="Contact number must be 10 digits long"
               />
             </div>
             <div class="mb-3">
-              <label for="address">Address</label>
+              <label for="address">National Id</label>
               <input
                 type="text"
                 class="form-control"
                 id="address"
-                placeholder="Enter Address"
+                placeholder="Enter National Id"
+                pattern="^[0-9]{9}[vVxX]$"
                 onChange={(e) => {
-                  setAddress(e.target.value);
+                  setNationalId(e.target.value);
                 }}
               />
             </div>
-
             <div class="mb-3">
-              <label for="gender">Select Student Gender</label>
+              <label for="address">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                placeholder="Enter Email"
+                onChange={(e) => {
+                  if (emailPattern.test(e.target.value)) {
+                    setEmail(e.target.value);
+                  } else {
+                    alert("Invalid email address");
+                  }
+                }}
+              />
+            </div>
+            <div class="mb-3">
+              <label for="gender">Select Subject</label>
               <select
                 onChange={(e) => {
-                  setGender(e.target.value);
+                  setSubjects(e.target.value);
                 }}
                 class="form-control"
               >
                 <option value="none" selected disabled hidden>
                   Select an Option
                 </option>
-                <option value="Male" class="form-control">
-                  Male
+                <option value="Mathamatics" class="form-control">
+                  Mathamatics
                 </option>
-                <option value="Female" class="form-control">
-                  Female
+                <option value="Science" class="form-control">
+                  Science
+                </option>
+                <option value="Sinhala" class="form-control">
+                  Sinhala
                 </option>
               </select>
             </div>
 
             <div class="mb-3">
-              <label for="dob">Age</label>
-              <input
-                type="text"
-                class="form-control"
-                id="dob"
-                placeholder="Enter Age"
-                onChange={(e) => {
-                  setDob(e.target.value);
-                }}
-              />
+              <label for="dob">Date of Birth</label>
+              <div class="">
+                <DatePicker
+                  id="date-of-birth"
+                  selected={dateOfBirth}
+                  onChange={(date) => {
+                    setDateOfBirth(date);
+                  }}
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  dropdownMode="select"
+                  customInput={<CustomInput />}
+                />
+              </div>
             </div>
 
             <button type="submit" class="btn btn-primary">
